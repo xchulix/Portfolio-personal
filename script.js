@@ -1,168 +1,839 @@
-// Scroll animations
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 100);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.exp-item, .project-card').forEach(el => observer.observe(el));
-
-  // ── MODAL PROYECTOS ──
-  const projectsData = {
-    tripleboot: {
-      icon: '⚙️',
-      title: 'Triple Boot Corporativo',
-      subtitle: 'Proyecto técnico · Fraternidad Muprespa — 2026',
-      tags: ['GRUB', 'Debian', 'Clonezilla', 'SSH', 'Windows Sysprep', 'Samba', 'PXE', 'Bash'],
-      description: `Diseño e implementación de un entorno de triple boot para equipos corporativos en Fraternidad Muprespa. El sistema arranca en tres modos: Debian de trabajo para empleados, Debian de restauración en modo consola con acceso SSH remoto, y Windows Sysprepado listo para despliegue. El proyecto fue presentado ante dirección y personal técnico con 20 asistentes.`,
-      objective: `Eliminar la necesidad de enviar físicamente los equipos al departamento técnico cuando fallan o se infectan. Con el entorno de restauración accesible por SSH, cualquier técnico puede remotamente iniciar una reimagen completa desde el servidor Samba sin desplazarse, reduciendo drásticamente el tiempo de resolución de incidencias.`,
-      steps: [
-        'Diseño de la arquitectura de particiones para soportar los tres sistemas operativos.',
-        'Configuración avanzada de GRUB: entradas personalizadas, control del SO por defecto y protección del arranque de Windows sysprepado.',
-        'Despliegue de Debian minimalista para uso diario de empleados en caso de fallo del sistema principal.',
-        'Configuración del entorno de restauración en modo consola con acceso remoto vía SSH.',
-        'Automatización del proceso de reimagen conectando el equipo afectado al servidor de imágenes corporativo (Samba + Clonezilla).',
-        'Optimización del flujo de soporte: resolución remota sin necesidad de desplazamiento físico.',
-        'Presentación del proyecto ante dirección y equipo técnico (20 asistentes).',
-      ],
-      images: 1,
-    },
-    deploy: {
-      icon: '🖥️',
-      title: 'Despliegue Masivo de Equipos',
-      subtitle: 'Prácticas · Fraternidad Muprespa — 2026',
-      tags: ['Clonezilla', 'Samba', 'Windows 11', 'Redes LAN'],
-      description: `Proyecto de reimagen corporativa de múltiples equipos de forma simultánea en un entorno de red real durante las prácticas en Fraternidad Muprespa. Se trabajó con varias máquinas en paralelo, reduciendo drásticamente el tiempo de despliegue frente al método equipo por equipo.`,
-      objective: `Modernizar el parque de equipos de la empresa migrando a Windows 11 24H2 de forma centralizada y estandarizada, garantizando que todos los PCs salieran con la misma imagen corporativa y configuración base, minimizando el tiempo de inactividad.`,
-      steps: [
-        'Configuración del servidor Clonezilla lite y switch de red dedicado al despliegue.',
-        'Preparación y gestión de las imágenes corporativas en servidor Samba.',
-        'Arranque en red (PXE) de los equipos cliente de forma simultánea.',
-        'Supervisión del proceso de reimagen y resolución de incidencias en tiempo real.',
-        'Verificación de cada equipo tras la restauración y entrega a los usuarios.',
-      ],
-      images: 1,
-    },
-    linux: {
-      icon: '🌐',
-      title: 'Administración de Servidores Linux',
-      subtitle: 'Proyecto académico + laboratorio personal',
-      tags: ['Debian', 'Ubuntu Server', 'Apache', 'Nginx', 'SSH', 'DNS', 'DHCP', 'SSL'],
-      description: `Configuración completa de servidores Linux (Debian/Ubuntu) desde cero, cubriendo los servicios más habituales en entornos empresariales: web, transferencia de ficheros, resolución de nombres y compartición de recursos en red híbrida.`,
-      objective: `Adquirir dominio real de la administración de servidores Linux, siendo capaz de desplegar y mantener una infraestructura de servicios completa, segura y funcional sin depender de entornos gráficos.`,
-      steps: [
-        'Instalación y bastionado inicial del sistema: SSH seguro, usuarios sin privilegios.',
-        "Despliegue de servidor web Apache/Nginx con virtualhosting y certificado SSL (Let's Encrypt).",
-        'Configuración de FTP/SFTP con chroot por usuario para transferencias seguras.',
-        'Integración de Samba para compartición de ficheros con equipos Windows en la red.',
-        'Configuración de DHCP con Bind9 y dnsmasq para resolución de nombres interna.',
-      ],
-      images: 2,
-    },
-    winserver: {
-      icon: '🏢',
-      title: 'Infraestructura Windows Server',
-      subtitle: 'Proyecto académico · entorno virtualizado',
-      tags: ['Active Directory', 'GPO', 'DHCP', 'DNS', 'Windows Server'],
-      description: `Implementación de una infraestructura completa de directorio activo en entorno virtualizado, simulando la estructura de una empresa mediana: departamentos, permisos diferenciados y políticas de seguridad centralizadas.`,
-      objective: `Comprender y aplicar la gestión centralizada de usuarios y equipos en entornos Windows corporativos, siendo capaz de administrar el ciclo de vida de cuentas, aplicar políticas y mantener la seguridad del dominio.`,
-      steps: [
-        'Instalación de Windows Server y promoción a controlador de dominio (AD DS).',
-        'Creación de la estructura de OUs por departamento: dirección, RRHH, técnicos.',
-        'Alta de usuarios y grupos con permisos diferenciados según rol.',
-        'Diseño y aplicación de GPOs: fondo corporativo, restricciones de software, mapeo de unidades.',
-        'Configuración de DHCP con reservas por MAC y DNS con zonas directas e inversas.',
-      ],
-      images: 1,
-    },
-    webs: {
-      icon: '💻',
-      title: 'Páginas Web para Negocios Locales',
-      subtitle: 'Freelance · 2025 – Actualidad',
-      tags: ['HTML', 'CSS', 'JavaScript', 'SEO', 'Hosting', 'Dominio'],
-      description: `Desarrollo y mantenimiento de sitios web profesionales para negocios locales de Madrid como actividad freelance. Gestión integral del proyecto: desde la reunión inicial con el cliente hasta la entrega y puesta en marcha, incluyendo el alta de dominio y hosting.`,
-      objective: `Ofrecer a pequeños negocios una presencia web profesional, accesible y funcional, que les permita captar clientes online y diferenciarse de la competencia sin necesidad de grandes inversiones.`,
-      steps: [
-        'Reunión con el cliente para definir requisitos, estilo y contenidos.',
-        'Diseño responsive adaptado a móvil, tablet y escritorio.',
-        'Desarrollo de formulario de contacto funcional y mapa de localización.',
-        'Alta y configuración de dominio y hosting, certificado SSL incluido.',
-        'Integración con Google Maps, WhatsApp Business y redes sociales.',
-        'Entrega, formación básica al cliente y mantenimiento posterior.',
-      ],
-      images: 2,
-    },
-  };
-
-  function openModal(id) {
-    const p = projectsData[id];
-    document.getElementById('modalIcon').textContent = p.icon;
-    document.getElementById('modalTitle').textContent = p.title;
-    document.getElementById('modalSubtitle').textContent = p.subtitle;
-
-    let html = '';
-
-    // Descripción
-    html += `<div>
-      <div class="modal-section-title">Descripción</div>
-      <p class="modal-text">${p.description}</p>
-    </div>`;
-
-    // Placeholder(s) imagen
-    for (let i = 0; i < p.images; i++) {
-      html += `<div class="modal-img-placeholder">
-        <span class="ph-icon">📷</span>
-        <span class="ph-label">[ Añade aquí una captura del proyecto · 1200×630 px ]</span>
-      </div>`;
-    }
-
-    // Objetivo
-    html += `<div>
-      <div class="modal-section-title">Objetivo</div>
-      <p class="modal-text">${p.objective}</p>
-    </div>`;
-
-    // Proceso
-    html += `<div><div class="modal-section-title">Proceso</div><div class="modal-steps">`;
-    p.steps.forEach((s, i) => {
-      html += `<div class="modal-step">
-        <div class="modal-step-num">${String(i + 1).padStart(2, '0')}</div>
-        <div class="modal-step-text">${s}</div>
-      </div>`;
-    });
-    html += `</div></div>`;
-
-    // Tags
-    html += `<div><div class="modal-section-title">Tecnologías</div><div class="modal-tags">`;
-    p.tags.forEach(t => { html += `<span class="modal-tag">${t}</span>`; });
-    html += `</div></div>`;
-
-    document.getElementById('modalBody').innerHTML = html;
-    document.getElementById('modalOverlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
+:root {
+    --navy: #0d1b2a;
+    --navy2: #1a2d42;
+    --green: #00e5a0;
+    --green2: #00b87a;
+    --white: #f0f4f8;
+    --gray: #8fa3b8;
+    --card: #162233;
+    --border: rgba(0,229,160,0.15);
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+    --body: 'Inter', sans-serif;
   }
-
-  function closeModal() {
-    document.getElementById('modalOverlay').classList.remove('open');
-    document.body.style.overflow = '';
+ 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+  html { scroll-behavior: smooth; }
+ 
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: var(--body);
+    overflow-x: hidden;
   }
-
-  function closeOnOverlay(e) {
-    if (e.target === document.getElementById('modalOverlay')) closeModal();
+ 
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.35;
   }
-
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 200) current = s.getAttribute('id');
-    });
-    navLinks.forEach(a => {
-      a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--green)' : '';
-    });
-  });
+ 
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(13,27,42,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--green);
+    letter-spacing: 0.1em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green); }
+ 
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+ 
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
+  }
+ 
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%);
+    top: 50%; left: 60%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+ 
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+ 
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--green);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--green);
+  }
+ 
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+ 
+  h1 .name-line {
+    display: block;
+    background: linear-gradient(135deg, var(--white) 0%, var(--green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+ 
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+ 
+  .hero-chips {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    margin-bottom: 3rem;
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--green);
+    letter-spacing: 0.06em;
+    background: rgba(0,229,160,0.04);
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .chip:hover { background: rgba(0,229,160,0.1); border-color: var(--green); }
+ 
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+ 
+  .btn-primary {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    padding: 0.8rem 1.8rem;
+    background: var(--green);
+    color: var(--navy);
+    border: none;
+    border-radius: 2px;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--green2); transform: translateY(-2px); }
+ 
+  .btn-secondary {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    padding: 0.8rem 1.8rem;
+    background: transparent;
+    color: var(--green);
+    border: 1px solid var(--green);
+    border-radius: 2px;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-secondary:hover { background: rgba(0,229,160,0.08); transform: translateY(-2px); }
+ 
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 4rem;
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: var(--mono); font-size: 0.68rem;
+    color: var(--gray); letter-spacing: 0.12em; text-transform: uppercase;
+    animation: fadeInUp 1.5s ease 0.8s both;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, transparent, var(--green));
+    animation: scrollPulse 2s ease infinite;
+  }
+  @keyframes scrollPulse {
+    0%,100% { opacity: 0.4; } 50% { opacity: 1; }
+  }
+ 
+  /* SECTIONS */
+  section {
+    padding: 6rem 4rem;
+    position: relative;
+  }
+ 
+  .section-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 3.5rem;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--green);
+    letter-spacing: 0.1em;
+  }
+  .section-title {
+    font-family: var(--sans);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+ 
+  /* SOBRE MI */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  
+  .about-profile {
+    position: sticky;
+    top: 8rem;
+  }
+  
+  .profile-image {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    box-shadow: 0 0 40px rgba(0,229,160,0.15);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    object-fit: cover;
+  }
+  
+  .profile-image:hover {
+    border-color: var(--green);
+    box-shadow: 0 0 50px rgba(0,229,160,0.25);
+  }
+  
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .about-text p {
+    color: var(--gray);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    font-weight: 300;
+  }
+  .about-text p strong { color: var(--white); font-weight: 500; }
+ 
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .stat-card:hover { border-color: var(--green); transform: translateY(-3px); }
+  .stat-num {
+    font-family: var(--sans);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--gray);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+ 
+  /* EXPERIENCIA */
+  .exp-timeline { position: relative; }
+  .exp-timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 8px; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+  }
+  .exp-item {
+    padding-left: 2.5rem;
+    margin-bottom: 3rem;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .exp-item.visible { opacity: 1; transform: translateX(0); }
+  .exp-dot {
+    position: absolute; left: -5px; top: 6px;
+    width: 11px; height: 11px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(0,229,160,0.5);
+  }
+  .exp-meta {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 0.5rem; flex-wrap: wrap;
+  }
+  .exp-company {
+    font-family: var(--sans);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .exp-period {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--green);
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+  }
+  .exp-role {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li {
+    font-size: 0.88rem;
+    color: var(--gray);
+    padding: 0.25rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .exp-bullets li::before {
+    content: '▸';
+    position: absolute; left: 0;
+    color: var(--green);
+    font-size: 0.7rem;
+  }
+  .exp-bullets li strong { color: var(--white); font-weight: 500; }
+ 
+  /* PROYECTOS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+ 
+  /* Proyecto destacado ocupa todo el ancho */
+  .project-featured {
+    grid-column: 1 / -1;
+    border-color: rgba(0,229,160,0.35);
+    background: linear-gradient(135deg, var(--card) 0%, rgba(0,229,160,0.04) 100%);
+  }
+  .project-featured:hover {
+    border-color: var(--green);
+    box-shadow: 0 0 40px rgba(0,229,160,0.12);
+  }
+ 
+  /* Badge "Proyecto Destacado" */
+  .project-featured-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--navy);
+    background: var(--green);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+ 
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .project-card.visible { opacity: 1; transform: translateY(0); }
+  .project-card:hover {
+    border-color: var(--green);
+    box-shadow: 0 0 30px rgba(0,229,160,0.08);
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--green), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .project-card:hover::before { transform: scaleX(1); }
+ 
+  .project-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  .project-title {
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--white);
+  }
+  .project-desc {
+    font-size: 0.85rem;
+    color: var(--gray);
+    line-height: 1.65;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+  }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .project-tag {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    padding: 0.2rem 0.5rem;
+    background: rgba(0,229,160,0.06);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 2px;
+    color: var(--green);
+    letter-spacing: 0.05em;
+  }
+ 
+  /* HABILIDADES */
+  .skills-layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .skill-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.8rem;
+    transition: border-color 0.2s;
+  }
+  .skill-group:hover { border-color: rgba(0,229,160,0.4); }
+  .skill-group-title {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--green);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill-item {
+    display: flex; align-items: center; gap: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+  .skill-item span {
+    font-size: 0.82rem;
+    color: var(--gray);
+    font-weight: 300;
+  }
+  .skill-dot {
+    width: 5px; height: 5px;
+    background: var(--green);
+    border-radius: 50%;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+ 
+  /* FORMACIÓN */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.8rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .edu-card:hover { border-color: var(--green); transform: translateY(-3px); }
+  .edu-year {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--green);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.6rem;
+  }
+  .edu-title {
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: var(--white);
+  }
+  .edu-place {
+    font-size: 0.82rem;
+    color: var(--gray);
+    font-weight: 300;
+  }
+ 
+  /* PROYECCIÓN */
+  .future-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .future-box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at top left, rgba(0,229,160,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .future-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .future-step { position: relative; }
+  .step-num {
+    font-family: var(--sans);
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgba(0,229,160,0.15);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .step-title {
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    color: var(--white);
+  }
+  .step-desc {
+    font-size: 0.82rem;
+    color: var(--gray);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+ 
+  /* CONTACTO */
+  #contacto {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+  }
+  .contact-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .contact-text h2 {
+    font-family: var(--sans);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.8rem;
+  }
+  .contact-text p {
+    color: var(--gray);
+    font-size: 0.95rem;
+    font-weight: 300;
+    max-width: 400px;
+    line-height: 1.7;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    text-decoration: none;
+    color: var(--gray);
+    font-size: 0.88rem;
+    transition: color 0.2s;
+    font-weight: 300;
+  }
+  .contact-link:hover { color: var(--green); }
+  .contact-link-icon {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    background: rgba(0,229,160,0.04);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .contact-link:hover .contact-link-icon {
+    border-color: var(--green);
+    background: rgba(0,229,160,0.1);
+  }
+ 
+  /* FOOTER */
+  footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer p {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--gray);
+    letter-spacing: 0.06em;
+  }
+  footer span { color: var(--green); }
+ 
+  /* ANIMATIONS */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeInUp 0.7s ease both; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+  .delay-5 { animation-delay: 0.5s; }
+ 
+  /* HINT en tarjeta proyecto */
+  .project-hint {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--green);
+    opacity: 0;
+    margin-bottom: 0.8rem;
+    transition: opacity 0.2s;
+    letter-spacing: 0.08em;
+  }
+  .project-card:hover .project-hint { opacity: 1; }
+ 
+  /* MODAL OVERLAY */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+ 
+  /* MODAL BOX */
+  .modal-box {
+    background: var(--card);
+    border: 1px solid var(--green);
+    border-radius: 6px;
+    width: 100%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.25s;
+    position: relative;
+  }
+  .modal-overlay.open .modal-box {
+    transform: translateY(0) scale(1);
+  }
+  .modal-box::-webkit-scrollbar { width: 5px; }
+  .modal-box::-webkit-scrollbar-track { background: var(--navy); }
+  .modal-box::-webkit-scrollbar-thumb { background: rgba(0,229,160,0.25); border-radius: 3px; }
+ 
+  /* MODAL HEADER */
+  .modal-header {
+    padding: 1.4rem 1.8rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--card);
+    z-index: 1;
+  }
+  .modal-header-left { display: flex; align-items: center; gap: 0.85rem; }
+  .modal-icon { font-size: 1.6rem; }
+  .modal-title {
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green);
+  }
+  .modal-subtitle {
+    font-family: var(--mono);
+    font-size: 0.67rem;
+    color: var(--gray);
+    margin-top: 0.15rem;
+    letter-spacing: 0.05em;
+  }
+  .modal-close {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--gray);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    letter-spacing: 0.05em;
+  }
+  .modal-close:hover { border-color: #f85149; color: #f85149; }
+ 
+  /* MODAL BODY */
+  .modal-body {
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .modal-section-title {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--green);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .modal-section-title::before { content: '▸'; }
+ 
+  .modal-text {
+    font-size: 0.85rem;
+    color: var(--gray);
+    line-height: 1.78;
+    font-weight: 300;
+  }
+ 
+  /* Pasos proceso */
+  .modal-steps { display: flex; flex-direction: column; gap: 0.8rem; }
+  .modal-step { display: flex; gap: 0.9rem; align-items: flex-start; }
+  .modal-step-num {
+    min-width: 1.7rem;
+    height: 1.7rem;
+    background: rgba(0,229,160,0.08);
+    border: 1px solid rgba(0,229,160,0.3);
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .modal-step-text {
+    font-size: 0.84rem;
+    color: var(--gray);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+ 
+  /* Imagen placeholder */
+  .modal-img-placeholder {
+    background: var(--navy);
+    border: 1px dashed rgba(0,229,160,0.25);
+    border-radius: 4px;
+    height: 190px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--gray);
+    margin-top: 0.6rem;
+  }
+  .modal-img-placeholder .ph-icon { font-size: 2rem; opacity: 0.3; }
+  .modal-img-placeholder .ph-label { font-family: var(--mono); font-size: 0.68rem; opacity: 0.5; letter-spacing: 0.06em; }
+ 
+  /* Tags modal */
+  .modal-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .modal-tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 0.25rem 0.6rem;
+    background: rgba(0,229,160,0.06);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 2px;
+    color: var(--green);
+    letter-spacing: 0.05em;
+  }
+ 
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 7rem 1.5rem 3rem; }
+    .hero-scroll { left: 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-profile { position: static; }
+    .profile-image { max-width: 200px; }
+    .skills-layout { grid-template-columns: 1fr; }
+    .contact-layout { flex-direction: column; }
+    footer { padding: 1.5rem; flex-direction: column; text-align: center; }
+    .project-featured { grid-column: auto; }
+  }
