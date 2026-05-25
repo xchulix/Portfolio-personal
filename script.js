@@ -1,32 +1,4 @@
-// Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
-  });
-
-  function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  document.querySelectorAll('a, button, .chip, .stat-card, .project-card, .skill-group, .edu-card').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.transform += ' scale(1.5)';
-      ring.style.width = '50px'; ring.style.height = '50px';
-    });
-    el.addEventListener('mouseleave', () => {
-      ring.style.width = '36px'; ring.style.height = '36px';
-    });
-  });
-
-  // Scroll animations
+// Scroll animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
@@ -39,6 +11,24 @@
 
   // ── MODAL PROYECTOS ──
   const projectsData = {
+    tripleboot: {
+      icon: '⚙️',
+      title: 'Triple Boot Corporativo',
+      subtitle: 'Proyecto técnico · Fraternidad Muprespa — 2026',
+      tags: ['GRUB', 'Debian', 'Clonezilla', 'SSH', 'Windows Sysprep', 'Samba', 'PXE', 'Bash'],
+      description: `Diseño e implementación de un entorno de triple boot para equipos corporativos en Fraternidad Muprespa. El sistema arranca en tres modos: Debian de trabajo para empleados, Debian de restauración en modo consola con acceso SSH remoto, y Windows Sysprepado listo para despliegue. El proyecto fue presentado ante dirección y personal técnico con 20 asistentes.`,
+      objective: `Eliminar la necesidad de enviar físicamente los equipos al departamento técnico cuando fallan o se infectan. Con el entorno de restauración accesible por SSH, cualquier técnico puede remotamente iniciar una reimagen completa desde el servidor Samba sin desplazarse, reduciendo drásticamente el tiempo de resolución de incidencias.`,
+      steps: [
+        'Diseño de la arquitectura de particiones para soportar los tres sistemas operativos.',
+        'Configuración avanzada de GRUB: entradas personalizadas, control del SO por defecto y protección del arranque de Windows sysprepado.',
+        'Despliegue de Debian minimalista para uso diario de empleados en caso de fallo del sistema principal.',
+        'Configuración del entorno de restauración en modo consola con acceso remoto vía SSH.',
+        'Automatización del proceso de reimagen conectando el equipo afectado al servidor de imágenes corporativo (Samba + Clonezilla).',
+        'Optimización del flujo de soporte: resolución remota sin necesidad de desplazamiento físico.',
+        'Presentación del proyecto ante dirección y equipo técnico (20 asistentes).',
+      ],
+      images: 1,
+    },
     deploy: {
       icon: '🖥️',
       title: 'Despliegue Masivo de Equipos',
@@ -164,6 +154,7 @@
   }
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
   window.addEventListener('scroll', () => {

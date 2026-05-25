@@ -21,28 +21,6 @@
     color: var(--white);
     font-family: var(--body);
     overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    width: 12px; height: 12px;
-    background: var(--green);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.15s ease;
-    mix-blend-mode: screen;
-  }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid rgba(0,229,160,0.4);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9998;
-    transition: transform 0.35s ease, width 0.2s, height 0.2s;
   }
 
   /* Noise overlay */
@@ -182,7 +160,6 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     transition: background 0.2s, transform 0.15s;
-    cursor: none;
   }
   .btn-primary:hover { background: var(--green2); transform: translateY(-2px); }
 
@@ -198,7 +175,6 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     transition: background 0.2s, transform 0.15s;
-    cursor: none;
   }
   .btn-secondary:hover { background: rgba(0,229,160,0.08); transform: translateY(-2px); }
 
@@ -382,6 +358,7 @@
     color: var(--green);
     font-size: 0.7rem;
   }
+  .exp-bullets li strong { color: var(--white); font-weight: 500; }
 
   /* PROYECTOS */
   .projects-grid {
@@ -389,17 +366,46 @@
     grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     gap: 1.5rem;
   }
+
+  /* Proyecto destacado ocupa todo el ancho */
+  .project-featured {
+    grid-column: 1 / -1;
+    border-color: rgba(0,229,160,0.35);
+    background: linear-gradient(135deg, var(--card) 0%, rgba(0,229,160,0.04) 100%);
+  }
+  .project-featured:hover {
+    border-color: var(--green);
+    box-shadow: 0 0 40px rgba(0,229,160,0.12);
+  }
+
+  /* Badge "Proyecto Destacado" */
+  .project-featured-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--navy);
+    background: var(--green);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
   .project-card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 4px;
     padding: 2rem;
-    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
     position: relative;
     overflow: hidden;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
   }
   .project-card.visible { opacity: 1; transform: translateY(0); }
   .project-card:hover {
@@ -730,7 +736,7 @@
     font-size: 0.78rem;
     padding: 0.3rem 0.75rem;
     border-radius: 3px;
-    cursor: none;
+    cursor: pointer;
     transition: border-color 0.15s, color 0.15s;
     letter-spacing: 0.05em;
   }
@@ -829,4 +835,5 @@
     .skills-layout { grid-template-columns: 1fr; }
     .contact-layout { flex-direction: column; }
     footer { padding: 1.5rem; flex-direction: column; text-align: center; }
+    .project-featured { grid-column: auto; }
   }
